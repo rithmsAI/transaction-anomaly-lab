@@ -1,0 +1,34 @@
+{
+  "seed": 42,
+  "review_budget": 0.05,
+  "split_sizes": {
+    "train": 6000,
+    "calibration": 2000,
+    "test": 3000
+  },
+  "test_prevalence": 0.037333333333333336,
+  "models": {
+    "Rules baseline": {
+      "average_precision": 0.6493297881690492,
+      "precision": 0.48214285714285715,
+      "recall": 0.7232142857142857,
+      "alert_rate": 0.056,
+      "true_positives": 81,
+      "false_positives": 87,
+      "false_negatives": 31,
+      "true_negatives": 2801,
+      "threshold": 0.9380492698410248
+    },
+    "Isolation Forest": {
+      "average_precision": 0.5234411396043356,
+      "precision": 0.3987730061349693,
+      "recall": 0.5803571428571429,
+      "alert_rate": 0.05433333333333333,
+      "true_positives": 65,
+      "false_positives": 98,
+      "false_negatives": 47,
+      "true_negatives": 2790,
+      "threshold": 0.5628804906683844
+    }
+  }
+}

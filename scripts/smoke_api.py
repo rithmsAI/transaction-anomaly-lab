@@ -11,7 +11,7 @@ for attempt in range(30):
         with urllib.request.urlopen(base + '/readyz', timeout=2) as response:
             if response.status == 200:
                 break
-    except (urllib.error.URLError, TimeoutError):
+    except (urllib.error.URLError, TimeoutError, ConnectionError):
         time.sleep(1)
 else:
     raise RuntimeError('Service did not become ready')
@@ -27,3 +27,4 @@ assert results[0] == results[1], 'Retry changed decision'
 with urllib.request.urlopen(urllib.request.Request(base + '/metrics', headers=headers), timeout=5) as response:
     assert json.load(response)['unique_events'] == 1, 'Retry created a duplicate'
 print('Container HTTP scoring, authentication, and idempotent retry passed')
+

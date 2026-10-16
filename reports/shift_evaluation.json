@@ -1,0 +1,588 @@
+{
+  "seeds": [
+    101,
+    202,
+    303,
+    404,
+    505
+  ],
+  "review_budget": 0.05,
+  "summary": [
+    {
+      "method": "rules",
+      "scenario": "original",
+      "average_precision": {
+        "mean": 0.7139464525903919,
+        "sample_std": 0.03676814517302582
+      },
+      "precision": {
+        "mean": 0.5480406545657942,
+        "sample_std": 0.052973634000401844
+      },
+      "recall": {
+        "mean": 0.730181216437429,
+        "sample_std": 0.029443314134431433
+      },
+      "alert_rate": {
+        "mean": 0.05533333333333333,
+        "sample_std": 0.0058261860976495106
+      },
+      "false_positives": {
+        "mean": 75.6,
+        "sample_std": 14.943225890014512
+      }
+    },
+    {
+      "method": "rules",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": {
+        "mean": 0.2511953590168046,
+        "sample_std": 0.019912267682126512
+      },
+      "precision": {
+        "mean": 0.21230851461865563,
+        "sample_std": 0.017576331944195705
+      },
+      "recall": {
+        "mean": 0.730181216437429,
+        "sample_std": 0.029443314134431433
+      },
+      "alert_rate": {
+        "mean": 0.14253333333333335,
+        "sample_std": 0.012982038874280628
+      },
+      "false_positives": {
+        "mean": 337.2,
+        "sample_std": 36.113709308239166
+      }
+    },
+    {
+      "method": "isolation_forest",
+      "scenario": "original",
+      "average_precision": {
+        "mean": 0.5423093625894289,
+        "sample_std": 0.03176162408233585
+      },
+      "precision": {
+        "mean": 0.45672735893788524,
+        "sample_std": 0.02757617328711823
+      },
+      "recall": {
+        "mean": 0.6160789990991837,
+        "sample_std": 0.026474453842449116
+      },
+      "alert_rate": {
+        "mean": 0.055933333333333335,
+        "sample_std": 0.006473879139365448
+      },
+      "false_positives": {
+        "mean": 91.4,
+        "sample_std": 13.685759021698432
+      }
+    },
+    {
+      "method": "isolation_forest",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": {
+        "mean": 0.2503746921927107,
+        "sample_std": 0.025754603095090072
+      },
+      "precision": {
+        "mean": 0.1765848597612072,
+        "sample_std": 0.018729992987410387
+      },
+      "recall": {
+        "mean": 0.6160789990991837,
+        "sample_std": 0.026474453842449116
+      },
+      "alert_rate": {
+        "mean": 0.1454666666666667,
+        "sample_std": 0.01962368183825066
+      },
+      "false_positives": {
+        "mean": 360.0,
+        "sample_std": 54.13871073455665
+      }
+    }
+  ],
+  "runs": [
+    {
+      "seed": 101,
+      "method": "rules",
+      "scenario": "original",
+      "average_precision": 0.7467623601424711,
+      "precision": 0.49714285714285716,
+      "recall": 0.75,
+      "alert_rate": 0.058333333333333334,
+      "true_positives": 87,
+      "false_positives": 88,
+      "false_negatives": 29,
+      "true_negatives": 2796,
+      "threshold": 0.9511677326288902
+    },
+    {
+      "seed": 101,
+      "method": "rules",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": 0.22644155165207178,
+      "precision": 0.1891304347826087,
+      "recall": 0.75,
+      "alert_rate": 0.15333333333333332,
+      "true_positives": 87,
+      "false_positives": 373,
+      "false_negatives": 29,
+      "true_negatives": 2511,
+      "threshold": 0.9511677326288902
+    },
+    {
+      "seed": 101,
+      "method": "isolation_forest",
+      "scenario": "original",
+      "average_precision": 0.565488455602168,
+      "precision": 0.43125,
+      "recall": 0.5948275862068966,
+      "alert_rate": 0.05333333333333334,
+      "true_positives": 69,
+      "false_positives": 91,
+      "false_negatives": 47,
+      "true_negatives": 2793,
+      "threshold": 0.5583921881684197
+    },
+    {
+      "seed": 101,
+      "method": "isolation_forest",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": 0.2932507024192587,
+      "precision": 0.16995073891625614,
+      "recall": 0.5948275862068966,
+      "alert_rate": 0.13533333333333333,
+      "true_positives": 69,
+      "false_positives": 337,
+      "false_negatives": 47,
+      "true_negatives": 2547,
+      "threshold": 0.5583921881684197
+    },
+    {
+      "seed": 202,
+      "method": "rules",
+      "scenario": "original",
+      "average_precision": 0.6948652477647014,
+      "precision": 0.553072625698324,
+      "recall": 0.7557251908396947,
+      "alert_rate": 0.059666666666666666,
+      "true_positives": 99,
+      "false_positives": 80,
+      "false_negatives": 32,
+      "true_negatives": 2789,
+      "threshold": 0.9404695264040618
+    },
+    {
+      "seed": 202,
+      "method": "rules",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": 0.23784789683191815,
+      "precision": 0.21063829787234042,
+      "recall": 0.7557251908396947,
+      "alert_rate": 0.15666666666666668,
+      "true_positives": 99,
+      "false_positives": 371,
+      "false_negatives": 32,
+      "true_negatives": 2498,
+      "threshold": 0.9404695264040618
+    },
+    {
+      "seed": 202,
+      "method": "isolation_forest",
+      "scenario": "original",
+      "average_precision": 0.5045887806974232,
+      "precision": 0.4648648648648649,
+      "recall": 0.6564885496183206,
+      "alert_rate": 0.06166666666666667,
+      "true_positives": 86,
+      "false_positives": 99,
+      "false_negatives": 45,
+      "true_negatives": 2770,
+      "threshold": 0.5629992881856188
+    },
+    {
+      "seed": 202,
+      "method": "isolation_forest",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": 0.23199907455176416,
+      "precision": 0.1841541755888651,
+      "recall": 0.6564885496183206,
+      "alert_rate": 0.15566666666666668,
+      "true_positives": 86,
+      "false_positives": 381,
+      "false_negatives": 45,
+      "true_negatives": 2488,
+      "threshold": 0.5629992881856188
+    },
+    {
+      "seed": 303,
+      "method": "rules",
+      "scenario": "original",
+      "average_precision": 0.7598247800605745,
+      "precision": 0.6357142857142857,
+      "recall": 0.7295081967213115,
+      "alert_rate": 0.04666666666666667,
+      "true_positives": 89,
+      "false_positives": 51,
+      "false_negatives": 33,
+      "true_negatives": 2827,
+      "threshold": 1.0347946968444113
+    },
+    {
+      "seed": 303,
+      "method": "rules",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": 0.2711038560698099,
+      "precision": 0.23670212765957446,
+      "recall": 0.7295081967213115,
+      "alert_rate": 0.12533333333333332,
+      "true_positives": 89,
+      "false_positives": 287,
+      "false_negatives": 33,
+      "true_negatives": 2591,
+      "threshold": 1.0347946968444113
+    },
+    {
+      "seed": 303,
+      "method": "isolation_forest",
+      "scenario": "original",
+      "average_precision": 0.5498838863495595,
+      "precision": 0.49333333333333335,
+      "recall": 0.6065573770491803,
+      "alert_rate": 0.05,
+      "true_positives": 74,
+      "false_positives": 76,
+      "false_negatives": 48,
+      "true_negatives": 2802,
+      "threshold": 0.5636792691840754
+    },
+    {
+      "seed": 303,
+      "method": "isolation_forest",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": 0.23685749881662102,
+      "precision": 0.15513626834381553,
+      "recall": 0.6065573770491803,
+      "alert_rate": 0.159,
+      "true_positives": 74,
+      "false_positives": 403,
+      "false_negatives": 48,
+      "true_negatives": 2475,
+      "threshold": 0.5636792691840754
+    },
+    {
+      "seed": 404,
+      "method": "rules",
+      "scenario": "original",
+      "average_precision": 0.6906565399704792,
+      "precision": 0.5222222222222223,
+      "recall": 0.6811594202898551,
+      "alert_rate": 0.06,
+      "true_positives": 94,
+      "false_positives": 86,
+      "false_negatives": 44,
+      "true_negatives": 2776,
+      "threshold": 0.9541236368180281
+    },
+    {
+      "seed": 404,
+      "method": "rules",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": 0.2710910774362476,
+      "precision": 0.21962616822429906,
+      "recall": 0.6811594202898551,
+      "alert_rate": 0.14266666666666666,
+      "true_positives": 94,
+      "false_positives": 334,
+      "false_negatives": 44,
+      "true_negatives": 2528,
+      "threshold": 0.9541236368180281
+    },
+    {
+      "seed": 404,
+      "method": "isolation_forest",
+      "scenario": "original",
+      "average_precision": 0.5142219115664484,
+      "precision": 0.4270833333333333,
+      "recall": 0.5942028985507246,
+      "alert_rate": 0.064,
+      "true_positives": 82,
+      "false_positives": 110,
+      "false_negatives": 56,
+      "true_negatives": 2752,
+      "threshold": 0.5632033027887614
+    },
+    {
+      "seed": 404,
+      "method": "isolation_forest",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": 0.23406290551691336,
+      "precision": 0.16907216494845362,
+      "recall": 0.5942028985507246,
+      "alert_rate": 0.16166666666666665,
+      "true_positives": 82,
+      "false_positives": 403,
+      "false_negatives": 56,
+      "true_negatives": 2459,
+      "threshold": 0.5632033027887614
+    },
+    {
+      "seed": 505,
+      "method": "rules",
+      "scenario": "original",
+      "average_precision": 0.6776233350137334,
+      "precision": 0.532051282051282,
+      "recall": 0.7345132743362832,
+      "alert_rate": 0.052,
+      "true_positives": 83,
+      "false_positives": 73,
+      "false_negatives": 30,
+      "true_negatives": 2814,
+      "threshold": 0.9409578707822175
+    },
+    {
+      "seed": 505,
+      "method": "rules",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": 0.24949241309397552,
+      "precision": 0.20544554455445543,
+      "recall": 0.7345132743362832,
+      "alert_rate": 0.13466666666666666,
+      "true_positives": 83,
+      "false_positives": 321,
+      "false_negatives": 30,
+      "true_negatives": 2566,
+      "threshold": 0.9409578707822175
+    },
+    {
+      "seed": 505,
+      "method": "isolation_forest",
+      "scenario": "original",
+      "average_precision": 0.5773637787315448,
+      "precision": 0.46710526315789475,
+      "recall": 0.6283185840707964,
+      "alert_rate": 0.050666666666666665,
+      "true_positives": 71,
+      "false_positives": 81,
+      "false_negatives": 42,
+      "true_negatives": 2806,
+      "threshold": 0.5684783864407642
+    },
+    {
+      "seed": 505,
+      "method": "isolation_forest",
+      "scenario": "legitimate_behavior_shift",
+      "average_precision": 0.2557032796589962,
+      "precision": 0.20461095100864554,
+      "recall": 0.6283185840707964,
+      "alert_rate": 0.11566666666666667,
+      "true_positives": 71,
+      "false_positives": 276,
+      "false_negatives": 42,
+      "true_negatives": 2611,
+      "threshold": 0.5684783864407642
+    }
+  ],
+  "drift": [
+    {
+      "seed": 101,
+      "original": {
+        "amount_usd": {
+          "ks_statistic": 0.019333333333333334,
+          "review_shift": false
+        },
+        "distance_km": {
+          "ks_statistic": 0.0395,
+          "review_shift": false
+        },
+        "transactions_last_hour": {
+          "ks_statistic": 0.018833333333333334,
+          "review_shift": false
+        },
+        "account_age_days": {
+          "ks_statistic": 0.021666666666666667,
+          "review_shift": false
+        }
+      },
+      "shifted": {
+        "amount_usd": {
+          "ks_statistic": 0.36666666666666664,
+          "review_shift": true
+        },
+        "distance_km": {
+          "ks_statistic": 0.927,
+          "review_shift": true
+        },
+        "transactions_last_hour": {
+          "ks_statistic": 0.018833333333333334,
+          "review_shift": false
+        },
+        "account_age_days": {
+          "ks_statistic": 0.021666666666666667,
+          "review_shift": false
+        }
+      }
+    },
+    {
+      "seed": 202,
+      "original": {
+        "amount_usd": {
+          "ks_statistic": 0.0215,
+          "review_shift": false
+        },
+        "distance_km": {
+          "ks_statistic": 0.026833333333333334,
+          "review_shift": false
+        },
+        "transactions_last_hour": {
+          "ks_statistic": 0.013,
+          "review_shift": false
+        },
+        "account_age_days": {
+          "ks_statistic": 0.026,
+          "review_shift": false
+        }
+      },
+      "shifted": {
+        "amount_usd": {
+          "ks_statistic": 0.388,
+          "review_shift": true
+        },
+        "distance_km": {
+          "ks_statistic": 0.9193333333333333,
+          "review_shift": true
+        },
+        "transactions_last_hour": {
+          "ks_statistic": 0.013,
+          "review_shift": false
+        },
+        "account_age_days": {
+          "ks_statistic": 0.026,
+          "review_shift": false
+        }
+      }
+    },
+    {
+      "seed": 303,
+      "original": {
+        "amount_usd": {
+          "ks_statistic": 0.0275,
+          "review_shift": false
+        },
+        "distance_km": {
+          "ks_statistic": 0.013666666666666667,
+          "review_shift": false
+        },
+        "transactions_last_hour": {
+          "ks_statistic": 0.017333333333333333,
+          "review_shift": false
+        },
+        "account_age_days": {
+          "ks_statistic": 0.017,
+          "review_shift": false
+        }
+      },
+      "shifted": {
+        "amount_usd": {
+          "ks_statistic": 0.37483333333333335,
+          "review_shift": true
+        },
+        "distance_km": {
+          "ks_statistic": 0.9276666666666666,
+          "review_shift": true
+        },
+        "transactions_last_hour": {
+          "ks_statistic": 0.017333333333333333,
+          "review_shift": false
+        },
+        "account_age_days": {
+          "ks_statistic": 0.017,
+          "review_shift": false
+        }
+      }
+    },
+    {
+      "seed": 404,
+      "original": {
+        "amount_usd": {
+          "ks_statistic": 0.023,
+          "review_shift": false
+        },
+        "distance_km": {
+          "ks_statistic": 0.025833333333333333,
+          "review_shift": false
+        },
+        "transactions_last_hour": {
+          "ks_statistic": 0.024666666666666667,
+          "review_shift": false
+        },
+        "account_age_days": {
+          "ks_statistic": 0.016,
+          "review_shift": false
+        }
+      },
+      "shifted": {
+        "amount_usd": {
+          "ks_statistic": 0.37066666666666664,
+          "review_shift": true
+        },
+        "distance_km": {
+          "ks_statistic": 0.927,
+          "review_shift": true
+        },
+        "transactions_last_hour": {
+          "ks_statistic": 0.024666666666666667,
+          "review_shift": false
+        },
+        "account_age_days": {
+          "ks_statistic": 0.016,
+          "review_shift": false
+        }
+      }
+    },
+    {
+      "seed": 505,
+      "original": {
+        "amount_usd": {
+          "ks_statistic": 0.03,
+          "review_shift": false
+        },
+        "distance_km": {
+          "ks_statistic": 0.021166666666666667,
+          "review_shift": false
+        },
+        "transactions_last_hour": {
+          "ks_statistic": 0.013833333333333333,
+          "review_shift": false
+        },
+        "account_age_days": {
+          "ks_statistic": 0.03216666666666667,
+          "review_shift": false
+        }
+      },
+      "shifted": {
+        "amount_usd": {
+          "ks_statistic": 0.36466666666666664,
+          "review_shift": true
+        },
+        "distance_km": {
+          "ks_statistic": 0.932,
+          "review_shift": true
+        },
+        "transactions_last_hour": {
+          "ks_statistic": 0.013833333333333333,
+          "review_shift": false
+        },
+        "account_age_days": {
+          "ks_statistic": 0.03216666666666667,
+          "review_shift": false
+        }
+      }
+    }
+  ],
+  "note": "Descriptive variability across synthetic seeds, not a confidence interval or real-world validation. KS > 0.1 is a heuristic effect-size flag, not a calibrated alarm."
+}

@@ -1,6 +1,12 @@
 # Transaction Anomaly Lab
 
-**A reproducible Python experiment comparing expert rules with unsupervised machine learning under a limited review budget.**
+**A Python ML engineering portfolio: reproducible evaluation, a typed scoring API, SQL audit records, and container verification.**
+
+[![Verify experiment and service](https://github.com/rithmsAI/transaction-anomaly-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/rithmsAI/transaction-anomaly-lab/actions/workflows/ci.yml)
+
+**Start here:** [Scoring API and Docker](docs/SERVICE.md) · [Employer requirements → evidence](docs/REQUIREMENTS_MAP.md) · [Interview walkthrough](docs/WALKTHROUGH.md)
+
+The project now includes 18 tests covering model behavior, strict API validation, authentication, concurrent retries, restart persistence, and audit-storage failure. GitHub Actions checks both the experiment and a running Docker container. The API is a local demo, not a hosted financial service.
 
 What should a team investigate when it can review only about 5% of transactions? This project evaluates two ways to rank events, measures the false-alarm workload, and makes the limitations visible.
 
@@ -47,7 +53,7 @@ source .venv/bin/activate
 Then:
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-api.txt
 python -m unittest discover -s tests -v
 python lab.py
 ```
@@ -59,6 +65,19 @@ Try another review budget without overwriting the included results:
 ```bash
 python lab.py --budget 0.02 --seed 43 --output reports/experiment-43
 ```
+
+## Behavior-shift experiment
+
+Run `python evaluate_shift.py` for five independently seeded experiments. The shifted scenario changes only legitimate transactions: amounts are multiplied by three and distances increased by 100 km. Thresholds remain frozen. Anomalous events are unchanged, so recall is unchanged by construction; false alarms and ranking quality can deteriorate.
+
+| Mean across 5 seeds | Rules baseline | Isolation Forest |
+|---|---:|---:|
+| Original precision | 54.8% | 45.7% |
+| Shifted precision | 21.2% | 17.7% |
+| Original alert rate | 5.53% | 5.59% |
+| Shifted alert rate | 14.25% | 14.55% |
+
+[Full results](reports/shift_evaluation.json) include every run, sample standard deviations, and feature-distribution diagnostics. These are descriptive results from a designed synthetic stress test, not population confidence intervals. A KS-statistic threshold of 0.1 is a heuristic for review, not a calibrated production alarm. Drift detection alone does not prove model quality loss; this experiment can measure quality because it retains synthetic labels.
 
 ## Design
 
@@ -95,16 +114,19 @@ See [engineering notes](docs/ENGINEERING.md) for assumptions and tradeoffs, and 
 
 The generator is intentionally simple. Rules use domain assumptions that closely match its anomaly patterns, so this is not a neutral comparison across real financial behavior. Events are independent; there are no customer histories, time drift, delayed labels, or real investigator decisions. A single seed does not establish statistical reliability. Unusual does not mean fraudulent.
 
-Before claiming generalization: evaluate many independent seeds, introduce legitimate travel and purchase spikes, test distribution shift, and use a properly licensed real dataset with temporal and entity-aware splits. Live systems would also need security, monitoring, privacy review, and human review processes. This repository is an offline educational experiment.
+The extension adds five-seed evaluation and a legitimate travel/purchase shift. Before claiming generalization, expand these scenarios and use a properly licensed real dataset with temporal and entity-aware splits. Live systems would also need security, monitoring, privacy review, and human review processes. This repository is an educational experiment with a local API; it has no production deployment.
 
 ## Repository guide
 
 | File | Purpose |
 |---|---|
 | `lab.py` | Generate, validate, train, calibrate, evaluate, and chart |
-| `tests/test_lab.py` | Seven tests covering contracts, metrics, budget behavior, and repeatability |
+| `tests/` | 18 tests across modeling, API reliability, and shift diagnostics |
+| `api.py` | Authenticated scoring, typed contracts, SQL audit and retry handling |
+| `evaluate_shift.py` | Five-seed paired original/shifted evaluations |
+| `Dockerfile` | Non-root service container |
 | `reports/` | Actual generated results and fictional sample events |
-| `.github/workflows/ci.yml` | Run tests and an experiment on pushes and pull requests |
+| `.github/workflows/ci.yml` | Run tests, experiments, and container HTTP checks on pushes and pull requests |
 | `docs/` | Engineering explanation, demo guide, and publishing steps |
 
 ## Development provenance

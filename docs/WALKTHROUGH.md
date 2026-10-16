@@ -21,3 +21,7 @@ Use these prompts to prepare an explanation in your own words. Do not claim skil
 ## Learning exercise before publication
 
 Change one normal-data assumption, run into a new output directory, and write a short observation. Keep the original benchmark unchanged. Being able to explain that experiment is more valuable than memorizing the README.
+
+## Service extension
+
+Run the API using `docs/SERVICE.md`. Explain 401, 409, 422, and 503 responses; show why a duplicate event produces one audit record. Read the concurrent retry test and explain how SQLite serialization protects it. Then explain why a frozen threshold can overload reviewers when legitimate behavior shifts. Be explicit that container CI is not proof of a cloud deployment.

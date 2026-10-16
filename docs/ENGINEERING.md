@@ -18,12 +18,12 @@ Isolation Forest finds statistically unusual feature combinations. The baseline 
 
 ## Reproducibility boundary
 
-The generator and model use fixed seeds. Direct dependency versions and Python 3.12 are specified; transitive dependencies are not fully locked. Exact floating-point results can vary by environment. The bundled metrics were generated locally, not by an observed GitHub Actions run. CI is configured but its hosted status must be checked after publication.
+The generator and model use fixed seeds. Direct dependency versions and Python 3.12 are specified; transitive dependencies are not fully locked. Exact floating-point results can vary by environment. The bundled metrics were generated locally. The original experiment passed GitHub Actions after publication; use the current Actions run to inspect verification of subsequent changes.
 
 ## Useful next pull requests
 
-1. Add a multiseed evaluation that reports uncertainty without selecting a favorable seed.
-2. Add a shifted test population with legitimate high-value purchases and travel.
+1. Expand the included five-seed evaluation and report uncertainty without selecting favorable seeds.
+2. Expand the included legitimate high-value purchase and travel stress test with additional shifts.
 3. Compare a supervised model, using labels only in a separate training design.
 4. Add customer histories with leakage-safe, past-only features and chronological splits.
 

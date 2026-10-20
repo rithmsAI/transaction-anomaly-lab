@@ -4,7 +4,17 @@
 
 [![Verify experiment and service](https://github.com/rithmsAI/transaction-anomaly-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/rithmsAI/transaction-anomaly-lab/actions/workflows/ci.yml)
 
-**Start here:** [Scoring API and Docker](docs/SERVICE.md) · [Employer requirements → evidence](docs/REQUIREMENTS_MAP.md) · [Interview walkthrough](docs/WALKTHROUGH.md)
+**Start here:** [Two-minute recruiter tour](docs/RECRUITER.md) · [Downloadable interactive explorer](demo/index.html) · [Scoring API and Docker](docs/SERVICE.md) · [Employer requirements → evidence](docs/REQUIREMENTS_MAP.md) · [Interview walkthrough](docs/WALKTHROUGH.md)
+
+## Review this project in two minutes
+
+**Question:** Which transactions deserve investigation when review capacity is limited?
+
+**Engineering evidence:** Python model evaluation, a typed FastAPI service, authenticated requests, SQL audit records, retry handling, Docker, and automated checks.
+
+**Key finding:** The rules baseline beat Isolation Forest in this synthetic experiment. The project makes that tradeoff visible instead of assuming a more complex model is better.
+
+**Try it:** Download [demo/index.html](demo/index.html) using GitHub's **Download raw file** button, then open it in your browser. Change the calibration review budget to compare useful findings and false alarms. No Python installation is required. The explorer uses actual precomputed experiment results; it is not a live API or production fraud detector.
 
 The project now includes 18 tests covering model behavior, strict API validation, authentication, concurrent retries, restart persistence, and audit-storage failure. GitHub Actions checks both the experiment and a running Docker container. The API is a local demo, not a hosted financial service.
 

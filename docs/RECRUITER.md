@@ -6,7 +6,7 @@ A Python portfolio project connecting ML evaluation to an authenticated scoring 
 
 ## Try the experiment without installing Python
 
-Open the [live interactive case study](https://kaya-rithmsai-portfolio.krobin2411.chatgpt.site/projects/transactions/). No account, API key or installation is needed. For offline use, download `demo/index.html` and open it in a browser; GitHub's file viewer displays its source.
+Open the [live interactive case study](https://rithmsai.github.io/tripleten-portfolio/projects/transactions/). No account, API key or installation is needed. For offline use, download `demo/index.html` and open it in a browser; GitHub's file viewer displays its source.
 
 Change the calibration budget from 5% to 1% or 10%. Compare anomalies found, false alarms, recall, and actual test workload. This is a standalone explorer of precomputed synthetic results; it does not call the scoring API. Rebuild with `python scripts/build_demo.py` after installing the project dependencies.
 

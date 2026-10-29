@@ -4,7 +4,7 @@
 
 [![Verify experiment and service](https://github.com/rithmsAI/transaction-anomaly-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/rithmsAI/transaction-anomaly-lab/actions/workflows/ci.yml)
 
-**[Try the live interactive case study](https://kaya-rithmsai-portfolio.krobin2411.chatgpt.site/projects/transactions/)** · [Executed validation notebook](notebooks/01_validation.ipynb)
+**[Try the live interactive case study](https://rithmsai.github.io/tripleten-portfolio/projects/transactions/)** · [Executed validation notebook](notebooks/01_validation.ipynb)
 
 **Start here:** [Two-minute recruiter tour](docs/RECRUITER.md) Â· [Downloadable interactive explorer](demo/index.html) Â· [Scoring API and Docker](docs/SERVICE.md) Â· [Employer requirements â†’ evidence](docs/REQUIREMENTS_MAP.md) Â· [Interview walkthrough](docs/WALKTHROUGH.md)
 

@@ -27,3 +27,4 @@ jobs:
           docker run -d --name anomaly-smoke -p 127.0.0.1:8000:8000 -e LAB_API_KEY anomaly-lab
           trap 'docker logs anomaly-smoke; docker rm -f anomaly-smoke' EXIT
           python3 scripts/smoke_api.py
+

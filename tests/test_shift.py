@@ -20,3 +20,4 @@ class ShiftTests(unittest.TestCase):
     def test_large_distance_shift_detected(self):
         x, y = generate(500, 23)
         self.assertTrue(drift_report(x, shift_legitimate(x, y))['distance_km']['review_shift'])
+

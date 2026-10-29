@@ -6,7 +6,7 @@ A Python portfolio project connecting ML evaluation to an authenticated scoring 
 
 ## Try the experiment without installing Python
 
-Open [demo/index.html](../demo/index.html) on GitHub, choose **Download raw file**, and open the downloaded HTML in a browser. Or download the repository ZIP and open that file. No server, account, API key, or dependency installation is needed. GitHub's file viewer displays source rather than running HTML.
+Open the [live interactive case study](https://kaya-rithmsai-portfolio.krobin2411.chatgpt.site/projects/transactions/). No account, API key or installation is needed. For offline use, download `demo/index.html` and open it in a browser; GitHub's file viewer displays its source.
 
 Change the calibration budget from 5% to 1% or 10%. Compare anomalies found, false alarms, recall, and actual test workload. This is a standalone explorer of precomputed synthetic results; it does not call the scoring API. Rebuild with `python scripts/build_demo.py` after installing the project dependencies.
 
@@ -49,3 +49,4 @@ This is a suggested recording outline, not a completed video.
 ## Scope and next steps
 
 The project demonstrates implementation and evaluation skills; it does not claim production fraud prevention, customer impact, seniority, or unaided authorship. The API remains a local demo. No public API hosting, performance SLA, or real financial data is included. A next technical milestone would be measured API latency and a licensed dataset evaluated with temporal and entity-aware splits.
+

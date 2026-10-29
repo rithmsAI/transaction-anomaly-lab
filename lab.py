@@ -71,6 +71,14 @@ def threshold_for_budget(scores: np.ndarray, budget: float) -> float:
 
 
 def evaluate(y: np.ndarray, scores: np.ndarray, threshold: float) -> dict:
+    y = np.asarray(y)
+    scores = np.asarray(scores, dtype=float)
+    if y.ndim != 1 or scores.ndim != 1 or len(y) == 0 or len(y) != len(scores):
+        raise ValueError('Labels and scores must be aligned, nonempty vectors')
+    if not np.isin(y, [0, 1]).all() or not np.isfinite(scores).all() or not np.isfinite(threshold):
+        raise ValueError('Binary labels, finite scores and finite threshold required')
+    if len(np.unique(y)) != 2:
+        raise ValueError('Both classes required to interpret ranking metrics')
     pred = scores >= threshold
     tn, fp, fn, tp = confusion_matrix(y, pred, labels=[0, 1]).ravel()
     return {'average_precision': float(average_precision_score(y, scores)),
@@ -148,3 +156,4 @@ if __name__ == '__main__':
     if not 0 < args.budget < 1:
         parser.error('budget must be between zero and one')
     print(json.dumps(run(args.output, args.seed, args.budget), indent=2))
+

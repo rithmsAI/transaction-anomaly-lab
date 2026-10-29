@@ -25,3 +25,4 @@ git push -u origin main
 If Git is not available, GitHub Desktop can add and publish the extracted folder. Ensure the `.github` directory is included so checks run.
 
 The package has no hosted demo or deployed service; the reproducible command-line experiment and benchmark image are its current demonstration. A profile-wide refresh still requires reviewing the actual GitHub profile.
+

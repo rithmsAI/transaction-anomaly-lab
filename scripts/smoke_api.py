@@ -28,3 +28,4 @@ with urllib.request.urlopen(urllib.request.Request(base + '/metrics', headers=he
     assert json.load(response)['unique_events'] == 1, 'Retry created a duplicate'
 print('Container HTTP scoring, authentication, and idempotent retry passed')
 
+

@@ -4,7 +4,9 @@
 
 [![Verify experiment and service](https://github.com/rithmsAI/transaction-anomaly-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/rithmsAI/transaction-anomaly-lab/actions/workflows/ci.yml)
 
-**Start here:** [Two-minute recruiter tour](docs/RECRUITER.md) · [Downloadable interactive explorer](demo/index.html) · [Scoring API and Docker](docs/SERVICE.md) · [Employer requirements → evidence](docs/REQUIREMENTS_MAP.md) · [Interview walkthrough](docs/WALKTHROUGH.md)
+**[Try the live interactive case study](https://kaya-rithmsai-portfolio.krobin2411.chatgpt.site/projects/transactions/)** · [Executed validation notebook](notebooks/01_validation.ipynb)
+
+**Start here:** [Two-minute recruiter tour](docs/RECRUITER.md) Â· [Downloadable interactive explorer](demo/index.html) Â· [Scoring API and Docker](docs/SERVICE.md) Â· [Employer requirements â†’ evidence](docs/REQUIREMENTS_MAP.md) Â· [Interview walkthrough](docs/WALKTHROUGH.md)
 
 ## Review this project in two minutes
 
@@ -16,7 +18,7 @@
 
 **Try it:** Download [demo/index.html](demo/index.html) using GitHub's **Download raw file** button, then open it in your browser. Change the calibration review budget to compare useful findings and false alarms. No Python installation is required. The explorer uses actual precomputed experiment results; it is not a live API or production fraud detector.
 
-The project now includes 18 tests covering model behavior, strict API validation, authentication, concurrent retries, restart persistence, and audit-storage failure. GitHub Actions checks both the experiment and a running Docker container. The API is a local demo, not a hosted financial service.
+The project now includes 24 tests covering model behavior, strict API validation, authentication, concurrent retries, restart persistence, and audit-storage failure. GitHub Actions checks both the experiment and a running Docker container. The API is a local demo, not a hosted financial service.
 
 What should a team investigate when it can review only about 5% of transactions? This project evaluates two ways to rank events, measures the false-alarm workload, and makes the limitations visible.
 
@@ -144,3 +146,8 @@ The extension adds five-seed evaluation and a legitimate travel/purchase shift. 
 This initial implementation and documentation were prepared with AI assistance. Portfolio ownership should be demonstrated through review, explanation, and subsequent improvements; the repository does not claim unaided authorship or production deployment. Do not describe generated benchmarks as business impact.
 
 No open-source license has been selected yet. Public visibility and permission to reuse code are separate decisions; select a license deliberately before inviting reuse.
+
+
+## SIS310 validation extension (local working release)
+
+See [new validation evidence and reproduction steps](docs/SIS310_EXTENSION.md) and `notebooks/01_validation.ipynb`. Run `python validation_audit.py` for additional metrics and paired uncertainty. See TEST_RESULTS.txt for the verified 24-test run, including the SQLite connection-closure fix.

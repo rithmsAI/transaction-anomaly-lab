@@ -1,4 +1,5 @@
 """Local synthetic scoring service with authenticated scoring and SQL audit records."""
+from contextlib import closing
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 import hashlib
@@ -48,7 +49,7 @@ def create_app(db_path=None, api_key=None):
             raise RuntimeError('LAB_API_KEY must contain at least 16 characters')
         app.state.ready = False
         db_path.parent.mkdir(parents=True, exist_ok=True)
-        with sqlite3.connect(db_path) as db:
+        with closing(sqlite3.connect(db_path)) as db, db:
             db.execute('''CREATE TABLE IF NOT EXISTS decisions (
                 event_id TEXT PRIMARY KEY, payload_hash TEXT NOT NULL,
                 model_version TEXT NOT NULL, response_json TEXT NOT NULL,
@@ -96,7 +97,7 @@ def create_app(db_path=None, api_key=None):
                           rules_alert=rules >= app.state.rules_threshold,
                           ml_alert=ml >= app.state.ml_threshold)
         try:
-            with sqlite3.connect(db_path, timeout=5) as db:
+            with closing(sqlite3.connect(db_path, timeout=5)) as db, db:
                 # Serialize read+write so concurrent retries cannot create duplicates.
                 db.execute('BEGIN IMMEDIATE')
                 existing = db.execute('SELECT payload_hash, response_json FROM decisions WHERE event_id = ?',
@@ -116,7 +117,7 @@ def create_app(db_path=None, api_key=None):
     @app.get('/metrics', dependencies=[Depends(authorize)])
     def metrics():
         try:
-            with sqlite3.connect(db_path, timeout=5) as db:
+            with closing(sqlite3.connect(db_path, timeout=5)) as db, db:
                 row = db.execute('SELECT COUNT(*), COALESCE(SUM(rules_alert), 0), COALESCE(SUM(ml_alert), 0) FROM decisions').fetchone()
             return {'unique_events': row[0], 'rules_alerts': row[1], 'ml_alerts': row[2],
                     'active_model_version': app.state.version}
@@ -127,3 +128,4 @@ def create_app(db_path=None, api_key=None):
 
 
 app = create_app()
+

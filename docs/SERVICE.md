@@ -69,3 +69,4 @@ Set `LAB_API_KEY` in the host environment first. The image runs as UID 10001 and
 This is a single-node demo using one shared API key and SQLite. It has no per-user authorization, key rotation service, TLS termination, rate limiting, request-body size cap, distributed model registry, or cloud deployment. Local binding is intentional. Before exposing it publicly, add these controls and select a concurrency/persistence design appropriate for the workload. Model fitting during startup is suitable only for this small simulator.
 
 The model-version fingerprint covers API/scoring source and NumPy/scikit-learn versions; it is an audit aid, not a signed supply-chain artifact. Direct dependencies are pinned, but transitive packages and the container base image are not fully locked.
+

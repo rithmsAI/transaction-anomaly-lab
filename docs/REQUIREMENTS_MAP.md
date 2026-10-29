@@ -22,3 +22,4 @@ Reviewed October 16, 2026. These official employer postings guide skill selectio
 - A separate cloud-infrastructure project with infrastructure as code, least-privilege access, deployment evidence, and teardown instructions.
 
 These are future work, not capabilities claimed by the current repository. A portfolio complements education and experience; it does not replace seniority requirements.
+

@@ -1,3 +1,4 @@
+from contextlib import closing
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import sqlite3
@@ -29,7 +30,7 @@ class APITests(unittest.TestCase):
         cls.temp.cleanup()
 
     def setUp(self):
-        with sqlite3.connect(self.db_path) as db:
+        with closing(sqlite3.connect(self.db_path)) as db, db:
             db.execute('DELETE FROM decisions')
 
     def test_health_and_readiness(self):
@@ -46,6 +47,21 @@ class APITests(unittest.TestCase):
         for headers in ({}, {'X-API-Key': 'incorrect'}):
             self.assertEqual(self.client.post('/score', json=EVENT, headers=headers).status_code, 401)
             self.assertEqual(self.client.get('/metrics', headers=headers).status_code, 401)
+
+    def test_request_connections_are_closed(self):
+        original_connect = sqlite3.connect
+        opened = []
+        def tracked(*args, **kwargs):
+            connection = original_connect(*args, **kwargs)
+            opened.append(connection)
+            return connection
+        with patch('api.sqlite3.connect', side_effect=tracked):
+            self.assertEqual(self.client.post('/score', json=EVENT, headers=self.headers).status_code, 200)
+            self.assertEqual(self.client.get('/metrics', headers=self.headers).status_code, 200)
+        self.assertEqual(len(opened), 2)
+        for connection in opened:
+            with self.assertRaises(sqlite3.ProgrammingError):
+                connection.execute('SELECT 1')
 
     def test_invalid_contracts(self):
         for change in ({'amount_usd': -1}, {'transactions_last_hour': 1.2},
@@ -85,3 +101,4 @@ class APITests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             with TestClient(create_app(self.db_path, '')):
                 pass
+

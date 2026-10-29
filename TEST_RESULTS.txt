@@ -1,0 +1,33 @@
+Python: 3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]
+Command: python -m unittest discover -s tests -v
+Exit code: 0
+
+test_audit_failure_returns_unavailable (test_api.APITests.test_audit_failure_returns_unavailable) ... ok
+test_audit_survives_restart (test_api.APITests.test_audit_survives_restart) ... ok
+test_authentication (test_api.APITests.test_authentication) ... ok
+test_concurrent_retries_record_once (test_api.APITests.test_concurrent_retries_record_once) ... ok
+test_health_and_readiness (test_api.APITests.test_health_and_readiness) ... ok
+test_invalid_contracts (test_api.APITests.test_invalid_contracts) ... ok
+test_missing_key_fails_startup (test_api.APITests.test_missing_key_fails_startup) ... ok
+test_request_connections_are_closed (test_api.APITests.test_request_connections_are_closed) ... ok
+test_retries_and_conflicting_ids (test_api.APITests.test_retries_and_conflicting_ids) ... ok
+test_budget_validation (test_lab.LabTests.test_budget_validation) ... ok
+test_calibrated_budget_and_ties (test_lab.LabTests.test_calibrated_budget_and_ties) ... ok
+test_input_contract (test_lab.LabTests.test_input_contract) ... ok
+test_metrics_known_confusion_matrix (test_lab.LabTests.test_metrics_known_confusion_matrix) ... ok
+test_model_scores_repeatable_and_extreme_event_ranks_high (test_lab.LabTests.test_model_scores_repeatable_and_extreme_event_ranks_high) ... ok
+test_no_alerts_is_defined (test_lab.LabTests.test_no_alerts_is_defined) ... ok
+test_reproducible_independent_streams (test_lab.LabTests.test_reproducible_independent_streams) ... ok
+test_identical_data_has_no_drift (test_shift.ShiftTests.test_identical_data_has_no_drift) ... ok
+test_large_distance_shift_detected (test_shift.ShiftTests.test_large_distance_shift_detected) ... ok
+test_shift_preserves_original_and_anomalies (test_shift.ShiftTests.test_shift_preserves_original_and_anomalies) ... ok
+test_read_only_parameterized_filter (test_sql_demo.SqlTests.test_read_only_parameterized_filter) ... ok
+test_fit_receives_training_only (test_validation_audit.ValidationAuditTests.test_fit_receives_training_only) ... ok
+test_identical_rankings_have_zero_paired_difference (test_validation_audit.ValidationAuditTests.test_identical_rankings_have_zero_paired_difference) ... ok
+test_rejects_bad_evaluation_inputs (test_validation_audit.ValidationAuditTests.test_rejects_bad_evaluation_inputs) ... ok
+test_test_label_changes_cannot_change_thresholds (test_validation_audit.ValidationAuditTests.test_test_label_changes_cannot_change_thresholds) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 1.592s
+
+OK

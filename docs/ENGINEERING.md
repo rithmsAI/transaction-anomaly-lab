@@ -30,3 +30,4 @@ The generator and model use fixed seeds. Direct dependency versions and Python 3
 ## Security and data boundary
 
 No credentials are needed. Inputs are generated arrays rather than uploaded customer data. The repository contains no copied business source or employer information. Never commit real transaction exports or secrets as demo inputs.
+

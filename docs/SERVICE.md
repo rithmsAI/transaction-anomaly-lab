@@ -20,14 +20,14 @@ export LAB_API_KEY="$(python -c 'import secrets; print(secrets.token_hex(24))')"
 python -m uvicorn api:app --host 127.0.0.1 --port 8000
 ```
 
-Keep the key out of commits. Startup refuses missing or short keys. The service fits its small deterministic synthetic model once at startup; no untrusted serialized model is loaded. Readiness becomes available after model fitting and database initialization. Swagger documentation is at `http://127.0.0.1:8000/docs`; use the X-API-Key field on authenticated endpoints.
+Keep the key out of commits. Startup refuses missing or short keys. The service fits its small deterministic synthetic model once at startup; no untrusted serialized model is loaded. Readiness becomes available after model fitting and database initialization, and each readiness request also checks that the decisions table is readable. This is a read check, not a write-capacity guarantee. Swagger documentation is at `http://127.0.0.1:8000/docs`; use the X-API-Key field on authenticated endpoints.
 
 ## API contract
 
 | Endpoint | Authentication | Behavior |
 |---|---|---|
 | `GET /healthz` | None | Process liveness |
-| `GET /readyz` | None | 200 when initialization is complete, otherwise 503 |
+| `GET /readyz` | None | 200 after initialization while the audit table is readable; otherwise 503 |
 | `POST /score` | `X-API-Key` | Return both scores, alert decisions, and model version |
 | `GET /metrics` | `X-API-Key` | SQL-derived counts of unique events and alerts |
 
@@ -41,9 +41,9 @@ Inputs use strict types, bounds, and forbidden extra fields. Missing/wrong crede
 
 ## Idempotency and SQL
 
-An event ID identifies one scoring request. Repeating the same validated payload returns its original stored decision, including its original model version. Reusing that ID with different features returns 409. A SQLite primary key and `BEGIN IMMEDIATE` transaction serialize concurrent retries. Identical events still compute scores before the lookup; a future optimization could avoid that repeated compute.
+An event ID identifies one scoring request. Repeating the same validated payload returns its original stored decision, including its original model version. Reusing that ID with different features returns 409. A SQLite primary key and `BEGIN IMMEDIATE` transaction serialize concurrent retries. Stored retries and conflicting IDs are checked before inference. A stored retry returns its original decision even if inference would now fail. For new IDs, scoring runs inside the write transaction; this avoids duplicate inference but serializes writers and is suitable only for this small single-node demo. It is not a high-throughput architecture.
 
-The audit table stores an event ID, a payload hash, the decision, model version, and timestamp. It does not store raw feature values. IDs must be synthetic; hashes are not a guarantee of anonymization. Persistence failure returns 503 rather than pretending the audit succeeded.
+The audit table stores an event ID, a payload hash, the decision, model version, and timestamp. It does not store raw feature values. IDs must be synthetic; hashes are not a guarantee of anonymization. Persistence failure or a stored response that fails schema validation returns 503 rather than pretending the audit succeeded. Failure-injection tests abort an actual SQLite insert, verify no decision remains, then verify a retry succeeds after recovery.
 
 `/metrics` reports all stored decisions, which can span model versions; it separately identifies the currently active version. It is an aggregate endpoint, not Prometheus monitoring. A useful SQL investigation is:
 

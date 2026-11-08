@@ -6,7 +6,7 @@
 
 **[Try the live interactive case study](https://rithmsai.github.io/tripleten-portfolio/projects/transactions/)** · [Executed validation notebook](notebooks/01_validation.ipynb)
 
-**Start here:** [Two-minute recruiter tour](docs/RECRUITER.md) Â· [Downloadable interactive explorer](demo/index.html) Â· [Scoring API and Docker](docs/SERVICE.md) Â· [Employer requirements â†’ evidence](docs/REQUIREMENTS_MAP.md) Â· [Interview walkthrough](docs/WALKTHROUGH.md)
+**Start here:** [Two-minute recruiter tour](docs/RECRUITER.md) · [Downloadable interactive explorer](demo/index.html) · [Scoring API and Docker](docs/SERVICE.md) · [Employer requirements → evidence](docs/REQUIREMENTS_MAP.md) · [Interview walkthrough](docs/WALKTHROUGH.md)
 
 ## Review this project in two minutes
 
@@ -18,7 +18,7 @@
 
 **Try it:** Download [demo/index.html](demo/index.html) using GitHub's **Download raw file** button, then open it in your browser. Change the calibration review budget to compare useful findings and false alarms. No Python installation is required. The explorer uses actual precomputed experiment results; it is not a live API or production fraud detector.
 
-The project now includes 24 tests covering model behavior, strict API validation, authentication, concurrent retries, restart persistence, and audit-storage failure. GitHub Actions checks both the experiment and a running Docker container. The API is a local demo, not a hosted financial service.
+The project now includes 30 tests covering model behavior, strict API validation, authentication, concurrent retries, restart persistence, and audit-storage failure. GitHub Actions checks both the experiment and a running Docker container. The API is a local demo, not a hosted financial service.
 
 What should a team investigate when it can review only about 5% of transactions? This project evaluates two ways to rank events, measures the false-alarm workload, and makes the limitations visible.
 
@@ -133,7 +133,7 @@ The extension adds five-seed evaluation and a legitimate travel/purchase shift. 
 | File | Purpose |
 |---|---|
 | `lab.py` | Generate, validate, train, calibrate, evaluate, and chart |
-| `tests/` | 18 tests across modeling, API reliability, and shift diagnostics |
+| `tests/` | 30 tests across modeling, API reliability, and shift diagnostics |
 | `api.py` | Authenticated scoring, typed contracts, SQL audit and retry handling |
 | `evaluate_shift.py` | Five-seed paired original/shifted evaluations |
 | `Dockerfile` | Non-root service container |
@@ -150,4 +150,4 @@ No open-source license has been selected yet. Public visibility and permission t
 
 ## SIS310 validation extension (local working release)
 
-See [new validation evidence and reproduction steps](docs/SIS310_EXTENSION.md) and `notebooks/01_validation.ipynb`. Run `python validation_audit.py` for additional metrics and paired uncertainty. See TEST_RESULTS.txt for the verified 24-test run, including the SQLite connection-closure fix.
+See [new validation evidence and reproduction steps](docs/SIS310_EXTENSION.md) and `notebooks/01_validation.ipynb`. Run `python validation_audit.py` for additional metrics and paired uncertainty. See TEST_RESULTS.txt for the verified 30-test run, including retry independence, concurrent conflicts, readiness storage checks, and failed-insert recovery.

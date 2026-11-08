@@ -11,7 +11,7 @@ import sqlite3
 
 import numpy as np
 from fastapi import Depends, FastAPI, Header, HTTPException
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 import sklearn
 
 from lab import generate, fit_model, model_scores, rule_scores, threshold_for_budget
@@ -65,8 +65,10 @@ def create_app(db_path=None, api_key=None):
                                 + (sklearn.__version__ + np.__version__).encode()).hexdigest()[:12]
         app.state.version = 'synthetic-iforest-' + digest
         app.state.ready = True
-        yield
-        app.state.ready = False
+        try:
+            yield
+        finally:
+            app.state.ready = False
 
     app = FastAPI(title='Transaction Anomaly Lab API', version='0.2.0', lifespan=lifespan)
 
@@ -84,18 +86,16 @@ def create_app(db_path=None, api_key=None):
     def ready():
         if not getattr(app.state, 'ready', False):
             raise HTTPException(503, 'Model is not ready')
+        try:
+            with closing(sqlite3.connect(db_path, timeout=5)) as db:
+                db.execute('SELECT event_id FROM decisions LIMIT 1').fetchone()
+        except sqlite3.Error:
+            raise HTTPException(503, 'Audit storage unavailable') from None
         return {'status': 'ready'}
 
     @app.post('/score', response_model=Decision, dependencies=[Depends(authorize)])
     def score(transaction: Transaction):
         payload_hash = hashlib.sha256(transaction.model_dump_json().encode()).hexdigest()
-        x = transaction.features()
-        rules = float(rule_scores(x)[0])
-        ml = float(model_scores(app.state.model, x)[0])
-        result = Decision(event_id=transaction.event_id, model_version=app.state.version,
-                          rules_score=rules, ml_score=ml,
-                          rules_alert=rules >= app.state.rules_threshold,
-                          ml_alert=ml >= app.state.ml_threshold)
         try:
             with closing(sqlite3.connect(db_path, timeout=5)) as db, db:
                 # Serialize read+write so concurrent retries cannot create duplicates.
@@ -106,11 +106,21 @@ def create_app(db_path=None, api_key=None):
                     if existing[0] != payload_hash:
                         raise HTTPException(409, 'event_id already used with different features')
                     return Decision.model_validate_json(existing[1])
+                # A committed retry is independent of today's model/thresholds.
+                # This small single-node demo scores under the write lock to ensure
+                # a concurrent duplicate does not execute inference twice.
+                x = transaction.features()
+                rules = float(rule_scores(x)[0])
+                ml = float(model_scores(app.state.model, x)[0])
+                result = Decision(event_id=transaction.event_id, model_version=app.state.version,
+                                  rules_score=rules, ml_score=ml,
+                                  rules_alert=rules >= app.state.rules_threshold,
+                                  ml_alert=ml >= app.state.ml_threshold)
                 db.execute('INSERT INTO decisions VALUES (?, ?, ?, ?, ?, ?, ?)',
                            (transaction.event_id, payload_hash, app.state.version, result.model_dump_json(),
                             int(result.rules_alert), int(result.ml_alert), datetime.now(timezone.utc).isoformat()))
             return result
-        except sqlite3.Error:
+        except (sqlite3.Error, ValidationError):
             # Do not claim a decision was recorded when persistence fails.
             raise HTTPException(503, 'Audit storage unavailable') from None
 

@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import sqlite3
 import tempfile
+import threading
 import unittest
 from unittest.mock import patch
 
@@ -101,4 +102,57 @@ class APITests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             with TestClient(create_app(self.db_path, '')):
                 pass
+
+    def test_retry_returns_original_without_running_model_again(self):
+        original = self.client.post('/score', json=EVENT, headers=self.headers)
+        self.assertEqual(original.status_code, 200)
+        with patch('api.model_scores', side_effect=RuntimeError('Model unavailable')) as scorer:
+            retry = self.client.post('/score', json=EVENT, headers=self.headers)
+            self.assertEqual(retry.status_code, 200)
+            self.assertEqual(retry.json(), original.json())
+            scorer.assert_not_called()
+
+    def test_conflicting_retry_does_not_run_model(self):
+        self.client.post('/score', json=EVENT, headers=self.headers)
+        with patch('api.model_scores', side_effect=RuntimeError('Model unavailable')) as scorer:
+            response = self.client.post('/score', json=EVENT | {'amount_usd': 200.0}, headers=self.headers)
+            self.assertEqual(response.status_code, 409)
+            scorer.assert_not_called()
+
+    def test_concurrent_conflicting_payloads_keep_one_decision(self):
+        barrier = threading.Barrier(2)
+        def submit(amount):
+            barrier.wait(timeout=5)
+            return self.client.post('/score', json=EVENT | {'amount_usd': amount}, headers=self.headers)
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            responses = list(pool.map(submit, [100.0, 200.0]))
+        self.assertEqual(sorted(r.status_code for r in responses), [200, 409])
+        self.assertEqual(self.client.get('/metrics', headers=self.headers).json()['unique_events'], 1)
+
+    def test_readiness_detects_storage_loss_without_breaking_liveness(self):
+        with patch('api.sqlite3.connect', side_effect=sqlite3.OperationalError('private path')):
+            self.assertEqual(self.client.get('/healthz').status_code, 200)
+            response = self.client.get('/readyz')
+            self.assertEqual(response.status_code, 503)
+            self.assertNotIn('private path', response.text)
+        self.assertEqual(self.client.get('/readyz').status_code, 200)
+
+    def test_failed_insert_leaves_no_decision_and_retry_recovers(self):
+        with closing(sqlite3.connect(self.db_path)) as db, db:
+            db.execute("CREATE TRIGGER reject_decision BEFORE INSERT ON decisions BEGIN SELECT RAISE(ABORT, 'forced failure'); END")
+        try:
+            self.assertEqual(self.client.post('/score', json=EVENT, headers=self.headers).status_code, 503)
+            self.assertEqual(self.client.get('/metrics', headers=self.headers).json()['unique_events'], 0)
+        finally:
+            with closing(sqlite3.connect(self.db_path)) as db, db:
+                db.execute('DROP TRIGGER reject_decision')
+        self.assertEqual(self.client.post('/score', json=EVENT, headers=self.headers).status_code, 200)
+
+    def test_corrupt_stored_decision_fails_closed(self):
+        self.client.post('/score', json=EVENT, headers=self.headers)
+        with closing(sqlite3.connect(self.db_path)) as db, db:
+            db.execute('UPDATE decisions SET response_json = ?', ('{"event_id": "broken"}',))
+        response = self.client.post('/score', json=EVENT, headers=self.headers)
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response.json(), {'detail': 'Audit storage unavailable'})
 

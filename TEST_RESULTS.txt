@@ -1,3 +1,13 @@
+Verification update — 2026-11-08
+Python 3.12.14; FastAPI 0.143.3; Pydantic 2.13.5; NumPy 2.3.5; scikit-learn 1.8.0.
+Command: .venv/bin/python -m unittest discover -s tests -v
+Result: 30 tests passed in 2.132 seconds.
+New cases: stored retry without inference, conflicting retry without inference, concurrent different payloads, storage-aware readiness, failed SQLite insertion plus recovery, corrupt stored response.
+Container validation is executed by the existing GitHub Actions container job; no local Docker run was performed in this update.
+These checks demonstrate local/synthetic behavior, not production capacity or fraud-detection effectiveness.
+
+Historical verification follows:
+
 Python: 3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]
 Command: python -m unittest discover -s tests -v
 Exit code: 0
